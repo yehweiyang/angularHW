@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  imul = "/assets/images/logo.png";
   url = "http//www.google.com";
 
   word = 0;
@@ -23,7 +23,9 @@ export class HeaderComponent implements OnInit {
     this.keyword= '';
   }
   title = '該加油了吧';
+  counter = 0 ;
   changeTitle($event: MouseEvent){
+    this.counter = this.counter+ 1;
     if($event.altKey)
       this.title = "狼若回頭，不是報恩 就是報仇";
 
