@@ -1,19 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-article-list',
+  templateUrl: './article-list.component.html',
+  styleUrls: ['./article-list.component.css']
 })
-export class AppComponent {
-  keyword = '';
+export class ArticleListComponent implements OnInit {
 
-  constructor() {
-  }
-  keywordReset() {
-    this.keyword = '';
-  }
+  constructor() { }
 
+  ngOnInit() {
+  }
   data = [
     {
       "id": 1,
