@@ -6,27 +6,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  title = 'app';
+  url = 'http://blog.miniasp.com/';
+  imul = '/assets/images/logo.png';
+  counter = 0;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  url = "http//www.google.com";
-
-  word = 0;
-  keyword: '';
-
-
-  keywordReset() {
-
-    this.keyword= '';
-  }
-  title = '該加油了吧';
-  changeTitle($event: MouseEvent){
-    if($event.altKey)
-      this.title = "狼若回頭，不是報恩 就是報仇";
-
+  getStyle() {
+    return { 'font-size': (12 + this.counter) + 'px' };
   }
 
+  changeTitle(altKey: boolean) {
+    if (altKey) {
+      this.title = 'The Will Will Web';
+    }
+    this.counter++;
+  }
 }
