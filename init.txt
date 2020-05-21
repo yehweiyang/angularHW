@@ -1,0 +1,271 @@
+M -> C -> V
+
+
+1.命名規則
+	1.模組 : XX_ZX0100.java (子系統別_次系統別+代號)
+	2.servlet : XXZX_0100.java (子系統別+次系統別_代號)
+	3.JSP : XXZX0100.jsp
+	4.檢核模組 : XXZX_010_mod
+	5.批次 : XXZX_B100
+2.package
+	xx(子系統)
+		->zx(次系統)
+			->module
+				->XX_ZX0100.java
+			->trx
+				->XXZX_0100.java
+			->batch
+				->XXZX_B100.java
+3.jsp
+	XX(子系統)
+		->ZX(次系統)
+			->XXZX_0100(XXZX0100.jsp ~ XXZX0199.jsp)
+				->XXZX0100.jsp
+
+4.匯入專案
+	1.XXWeb
+		1.ANT建置 -> 重新整理
+		2.JAVA建置路徑
+		3.目標執行時期
+	2.XX_EAR
+		1.目標執行時期
+
+5.工作區
+	1.程式碼樣式匯入
+	2.PMD檢核匯入
+
+6.套件使用
+	1.元件note
+	2.CSRUtil -> ppt
+	3.TableUI -> Wiki
+
+
+2369分機
+----
+java doc名字 日期 class、method
+
+----
+DB2PoolSvc.xml ==> 一般環境
+DB2PoolSvc_std.xml ==> junit環境
+在sqlfile tag中判斷是否使用file或db
+----
+db連線有問題可以到 DB2PoolSvc.xml 看設定有無正確
+----
+//新增SQL : 右鍵=>編輯SQL
+----
+//查詢的時候最後面要加 WITH UR (DB2專用，代表不加任何鎖)
+----
+// [ AND EMP_ID = ':EMP_ID' ]  若沒有值則該段sql不加入
+----
+//在模組中的exception都拋出國泰包好的ModuleException
+----
+//如何取得國泰包好的 DataSet ==> Transaction.getDataSet();
+----
+//將conncetion 跟 resultSet 合而為一的calss ==> DataSet
+----
+//StringUtils.isBlank(" ")       = true
+
+
+StringUtils.isEmpty(" ")       = false
+----
+//將
+		 DBUtil.searchAndRetrieve(ds, SQL_query_001);
+		
+		 List<Map> rtnList = new ArrayList<Map>();
+
+		 while (ds.next()) {
+
+		 Map rtnMap = VOTool.dataSetToMap(ds);
+
+		 rtnList.add(rtnMap);
+
+		 }
+一連串動作好的class
+
+VOTool
+
+ex : List<Map> rtnList = VOTool.findToMaps(ds, SQL_query_001);
+
+----
+// UserObject是個比較特別的vo ， 是由多張table串接而成
+----
+//取得今天的timeStamp用哪個方法 ==> DATE.currentTime()
+----
+//判斷日期格式是否正確用哪個方法 ==> DATE.isDate(BIRTHDAY)
+----
+//哪種情況下會發生DataSet的值被更改導致交易出現不明的錯誤 ==> 巢狀資料結構
+----
+//將dataSet的查詢結果自動轉換成map是哪個方法
+
+VOTool.dataSetToMap(ds)
+
+ex : Map rtnMap = VOTool.dataSetToMap(ds);
+----
+//發出查詢方法 ==> DBUtil.searchAndRetrieve(dataSet,sql語句);
+----
+junit正向方法命名規則==> testXxx : 前綴字test
+----
+junit反向方法命名規則==> testXxx_check : 前綴字test + 後綴字_check
+----
+junit反向測試 要加哪個annotation跟屬性
+@Test(expected = ErrorInputException.class)
+----
+junit正向測試跟反向測試都要完成嗎? 是
+----
+junit路徑要放哪? ==> 被測試類的目錄下再新增一個test packaage
+----
+deprecated要特別注意
+----
+terence2020@cxlit.com.tw
+!QAZ2wsx
+----
+ 國泰的servlet都要extends 哪個 java class 
+
+UCBean
+
+----
+在主程式取得 UserObject的方法 ?
+ 
+user = this.getUserObject(req);
+
+----
+在unit test中取得 UserObject的方法 ?
+
+private UserObject user = new AuthUtil().getUserObjByID("T16351617P");
+
+----
+module中 VOTool.findToMaps(ds, SQL_query_001, false); 若沒有資料會丟出dataNotFoundException嗎
+
+不會，因為第3個參數設為false
+----
+ log.error(me.getMessage(), me.getRootException());
+ MessageHelper.setReturnMessage(msg, ReturnCode.ERROR_MODULE, "", me, req);
+log兩個參數跟messageHelper五個參數，是在____________以外的錯誤(代表無法掌握的錯誤)
+才會搭配使用
+
+
+ log.error(me.getMessage(), me.getRootException());
+ MessageHelper.setReturnMessage(msg, ReturnCode.ERROR_MODULE, "", me, req);
+log兩個參數跟messageHelper五個參數，是在modulException以外的錯誤(代表無法掌握的錯誤)
+才會搭配使用
+----
+MessageUtil跟MessageHelper有何不同
+MessageUtil有做i18n而Helper則無
+----
+MessageUtil.setReturnMessage跟MessageHelper.setReturnMessage五個參數的時候，參數順序相同嗎?
+
+不同，要注意。
+
+----
+IM.ear -- application.xml
+was - jndi設定 -- 佈署
+----
+MessageDAO.properties哪來的?
+
+----
+var ajaxRequest = new CSRUtil.AjaxHandler.request('${dispatcher}/XXZX_0100/');做了甚麼
+封裝ajax請求跟回應 ; 使得resp可以直接用
+----
+Event.observe(window, 'load', new XXZX0100().initApp);是甚麼
+透過 prototype 的 Event 物件監聽 onload 事件，觸發時進行 initApp()
+----
+header.jsp
+封裝一些常用的context資源
+----
+var ajaxRequest = new CSRUtil.AjaxHandler.request('/"XXWeb"/servlet/HttpDispatcher/XXZX_0100/');	對應哪個檔案?
+application.xml的contenxt-root tag
+----
+var ajaxRequest = new CSRUtil.AjaxHandler.request('/"XXWeb"/"servlet/HttpDispatcher"/XXZX_0100/');	對應哪個檔案?
+
+web.xml
+<servlet-mapping>
+	<servlet-name>HttpDispatcher</servlet-name>
+	<url-pattern>/servlet/HttpDispatcher/*</url-pattern>
+</servlet-mapping>
+----
+var ajaxRequest = new CSRUtil.AjaxHandler.request('/XXWeb/servlet/HttpDispatcher/"XXZX_0100"/');	對應哪個檔案?
+
+XXZX_0100.xml
+<txbean class="com.cathay.xx.zx.trx.XXZX_0100" name="XXZX_0100">
+----
+ajaxRequest.post('query', { EMP_ID : $F('EMP_ID'), DIV_NO : $F('DIV_NO')},
+				function (resp) {
+					grid.load(resp.rtnList || []);
+				},
+				function (resp){						
+					grid.load([]);
+				} 
+);
+
+第三個跟第四個function分別是執行____跟_____的方法
+----
+$__('EMP_ID') 等同於 $('EMP_ID')getValue 
+$F('EMP_ID') 等同於 $('EMP_ID')getValue 
+----
+ new TableUI({ table : $("grid"),  <==> <table id="grid" class="grid"> 是否相互對應
+id要對應，否則出錯
+----
+new TableUI(( pageSize : 10, 一頁筆數有幾筆
+10筆
+----
+new TableUI({ column : [{header : "員工姓名" , key : 'EMP_NAME'}] 產出grid的header跟取出從後台傳過來的List<Map>用哪個值去跑迴圈取
+key : 'EMP_NAME'
+----
+在new TableUI({ column 中
+{header : "單位" , render : function(rec){
+	return rec["DIV_NO"]+' '+rec["DIV_SHORT_NAME"];
+}},
+return的 value 代表當下那個td所要dispay的值嗎?
+
+是
+----
+{header : "序號" , render : function(rec, val, sn, dataKey){//rec:____, val:______, sn:序號, dataKey:此欄位key
+
+{header : "序號" , render : function(rec, val, sn, dataKey){//rec:當筆資料, val:此欄位資料, sn:序號, dataKey:此欄位key
+----
+prototype如何產生超連結dom物件
+
+var link = new Element('a',{ href: 'javascript:void(0);' }).update(val);
+----
+prototype如何註冊超連結dom物件
+
+link.observe('click', function(){
+var LP_JSON = { action : '${dispatcher}/XXZX_0101/prompt'}
+}
+----
+CSRUtil.______是用來導頁，像是如果要做回到上一頁用這個方法就很方便
+
+CSRUtil.linkTo 是用來導頁，像是如果要做回到上一頁用這個方法就很方便
+----
+prototype如何註冊button click 事件
+
+<button class="button" type="button" id="btn_query" name="btn_query">查詢</button>
+
+var buttons = {	doQuery : function(){}}
+
+$('btn_query').observe('click', buttons.doQuery);
+----
+<table id="grid" class="grid"> 物件用 _____  自動生成grid
+
+<table id="grid" class="grid"> 物件用  TablE UI物件  自動生成grid
+----
+new TableUI 中 sortRule:'date'
+
+對各種格式做format
+----
+如何 清空 table
+
+grid.load([]);
+----
+如何發送form請求
+
+var LP_JSON = {
+	action : '${dispatcher}/XXZX_0101/prompt',
+	ACTION_TYPE : 'I'
+};
+CSRUtil.linkTo(LP_JSON,'form1');
+----
+若在servlet中要正確顯示req.getParameter的話，要先執行哪個方法
+
+VOTool.setParamsFromLP_JSON(req); ==> 會將json轉換為map
+----
